@@ -193,7 +193,7 @@ public class VendingMachine {
 	public boolean makePurchase(String code) {
 		boolean returnCode = false;
 		VendingMachineItem item = getItem(code);
-		//Injected fault for test validation by changing >= to >
+		//INJECTED FAULT FOR TEST VALIDATION
 		if ((item != null) && (this.balance > item.getPrice())) {
 			removeItem(code);
 			this.balance -= item.getPrice();
