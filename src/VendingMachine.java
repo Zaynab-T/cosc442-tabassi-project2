@@ -194,7 +194,7 @@ public class VendingMachine {
 		boolean returnCode = false;
 		VendingMachineItem item = getItem(code);
 		//INJECTED FAULT FOR TEST VALIDATION
-		if ((item != null) && (this.balance > item.getPrice())) {
+		if ((item != null) && (this.balance >= item.getPrice())) {
 			removeItem(code);
 			this.balance -= item.getPrice();
 			returnCode = true;
