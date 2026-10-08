@@ -64,7 +64,7 @@ public class VendingMachineTest {
     }
 
     @Test 
-    public void testAddItem_nullCode() {
+    public void testAddItem_emptyStringCode() {
         
         VendingMachine vm = new VendingMachine();
         VendingMachineItem item = new VendingMachineItem("Candy", 1.00);
@@ -79,5 +79,64 @@ public class VendingMachineTest {
         VendingMachineItem item = new VendingMachineItem("Candy", 1.00);
 
         assertThrows(VendingMachineException.class, () -> vm.addItem(item, "a"));
+    }
+
+    @Test 
+    public void testGetItem_occupiedSlot() {
+        
+        VendingMachine vm = new VendingMachine();
+        VendingMachineItem item = new VendingMachineItem("Chips", 1.50);
+        vm.addItem(item, "C");
+
+        VendingMachineItem result = vm.getItem("C");
+
+        assertSame(item, result);
+    }
+
+    @Test 
+    public void testGetItem_invalidCode() {
+
+        VendingMachine vm = new VendingMachine();
+
+        assertThrows(VendingMachineException.class, () -> vm.getItem("E"));
+    }
+
+    @Test 
+    public void testRemoveItem_occupiedSlot() {
+        
+        VendingMachine vm = new VendingMachine();
+        VendingMachineItem item = new VendingMachineItem("Chips", 1.50);
+        vm.addItem(item, "A");
+
+        VendingMachineItem removedItem = vm.removeItem("A");
+
+        assertSame(item, removedItem);
+        assertNull(vm.getItem("A"));
+    }
+
+    @Test 
+    public void testRemoveItem_emptySlot() {
+
+        VendingMachine vm = new VendingMachine();
+
+        assertThrows(VendingMachineException.class, () -> vm.removeItem("A"));
+    }
+
+    @Test 
+    public void testRemoveItem_invalidCode() {
+
+        VendingMachine vm = new VendingMachine();
+
+        assertThrows(VendingMachineException.class, () -> vm.removeItem("E"));
+    }
+
+    @Test 
+    public void testRemoveItem_sameSlotTwice() {
+
+        VendingMachine vm = new VendingMachine();
+        vm.addItem(new VendingMachineItem("Chips", 1.50), "B");
+        vm.removeItem("B");
+
+        assertThrows(VendingMachineException.class, () -> vm.removeItem("B"));
     }
 }
